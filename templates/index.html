@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMNJ Solver</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .checks {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 12px 0;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #f6f6f6;
+      padding: 12px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>LMNJ Solver</h1>
+
+  <form method="post" class="card">
+    <label>Target
+      <input type="number" step="any" name="target" required>
+    </label>
+
+    <div class="row">
+      <label>N
+        <input type="number" name="N" value="3" min="1">
+      </label>
+
+      <label>generation_depth
+        <input type="number" name="generation_depth" value="10" min="1">
+      </label>
+    </div>
+
+    <div class="row">
+      <label>max_seconds
+        <input type="number" step="any" name="max_seconds" value="10" min="1">
+      </label>
+
+      <label>memory_limit_mb
+        <input type="number" name="memory_limit_mb" value="512" min="64">
+      </label>
+    </div>
+
+    <div class="checks">
+      <label><input type="checkbox" name="use_neg"> neg</label>
+      <label><input type="checkbox" name="use_pow"> pow</label>
+      <label><input type="checkbox" name="use_sin"> sin</label>
+      <label><input type="checkbox" name="use_cos"> cos</label>
+      <label><input type="checkbox" name="use_tan"> tan</label>
+      <label><input type="checkbox" name="use_exp"> exp</label>
+      <label><input type="checkbox" name="use_ln"> ln</label>
+      <label><input type="checkbox" name="use_sqrt"> sqrt</label>
+    </div>
+
+    <button type="submit">開始計算</button>
+  </form>
+
+  {% if error %}
+    <div class="card">
+      <strong>錯誤：</strong>{{ error }}
+    </div>
+  {% endif %}
+
+  {% if result %}
+    <div class="card">
+      <h2>結果</h2>
+      <p><strong>Target:</strong> {{ result.target }}</p>
+      <p><strong>Best value:</strong> {{ result.value }}</p>
+      <p><strong>Absolute error:</strong> {{ result.abs_error }}</p>
+      <p><strong>Expression:</strong></p>
+      <pre>{{ result.expr }}</pre>
+    </div>
+  {% endif %}
+</body>
+</html>
